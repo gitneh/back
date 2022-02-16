@@ -1,0 +1,20 @@
+[
+  {
+      "title": "notebook",
+      "price": "100",
+      "thumbnail": "https://a-static.mlcdn.com.br/1500x1500/notebook-samsung-essentials-e30-intel-core-i3-4gb-1tb-156-full-hd-windows-10/magazineluiza/135239200/8229e6601492bebc8f335f57e45a637e.jpg",
+      "id":1
+  },
+ {
+      "title": "netbook",
+      "price": "50",
+      "thumbnail": "https://www.bhphotovideo.com/images/images2500x2500/HP_Hewlett_Packard_VA720UA_ABA_Mini_110_1037NR_Netbook_629473.jpg",
+      "id":2
+  },
+  {
+      "title": "pc",
+      "price": "200",
+      "thumbnail": "https://tecsuggest.com/wp-content/uploads/2020/06/Best-Budget-Compact-Gaming-PC-Under-1000.jpg",
+      "id":3
+  }
+]

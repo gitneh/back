@@ -1,0 +1,2 @@
+Prefiero pug porque es un poco más limpio que ejs,  es un lenguaje de plantillas simple,
+elegante, y de rendimiento fuerte.
