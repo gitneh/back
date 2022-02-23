@@ -17,7 +17,7 @@ router.get('/add', (req, res) => res.render('nueva'))
 router.post('/add', async (req, res) => {
   console.log(req.body)
   await productModel.add(req.body)
-  res.redirect(`/pug/result?product=${req.body.title}`)
+  res.redirect(`/pug/result?product=${req.body.name}`)
 })
 
 router.get("/result", (req, res) => res.render('result', { product: req.query.product }))

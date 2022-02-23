@@ -6,6 +6,14 @@
       href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css"
       type="text/css"
     />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/css/uikit.min.css"
+  />
   </head>
   <body>
     <nav>
@@ -17,11 +25,92 @@
     <div class="container">
       <h1>Hola, bienvenidos</h1>
       <p>Nuestros productos son:</p>
-      <ul>
-        <li>Notebook</li>
-        <li>Netbook</li>
-        <li>PC</li>
-      </ul>
+      <button id="button">Dame otra</button>
+      <ul id="product-list"></ul>
+    </div>
+
+    <div id="modal-full" class="uk-modal-full" uk-modal>
+      <div class="uk-modal-dialog">
+          <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+              <div class="uk-background-cover" style="background-color: #c5ddeb" uk-height-viewport></div>
+              <div class="uk-padding-large">
+                  <h1>Chat</h1>
+                  <p>Hola!, bienvenido a la aplicacion de chat. Ingresa tu mail</p>
+                  <div class="uk-margin">
+                    <input id="input-name" class="uk-input" type="text" placeholder="Nombre">
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div id="chat-container" class="uk-container uk-width-1-1 uk-padding-remove uk-margin-remove hidden">
+      <div class="userdata uk-text-center">
+        <span class="uk-margin-small-right" uk-icon="user"></span>
+        <span id="username">Lalo</span>
+      </div>
+      <div class="chat_body uk-width-1-1">
+        <div class="chat_names">
+          <div class=" uk-text-bold">People</div>
+          <ul id="user-list" class="name-list">
+            
+          </ul>
+
+        </div>
+        <div class="chat_messages">
+          <div class="chat_messages-wrapper">
+            <div class="message-header">
+              <span class="chat-with">Chat with Eduardo</span>
+            </div>
+            <div id="message-pool" class="messages">
+              <div class="remote">
+                <div class="message-data uk-text-small">
+                  <span class="user">Nombre</span>
+                  <span class="date-time">10:10AM, Today</span> &nbsp;
+                </div>
+                <div class="message-body">Hola?</div>
+              </div>
+              <div class="remote">
+                <div class="message-data uk-text-small">
+                  <span class="user">Nombre</span>
+                  <span class="date-time">10:10AM, Today</span> &nbsp;
+                </div>
+                <div class="message-body">Hola?</div>
+              </div>
+              <div class="local">
+                <div class="message-data uk-text-small align-right">
+                  <span class="date-time">10:10AM, Today</span> &nbsp;
+                  <span class="user">Nombre</span>
+                </div>
+                <div class="message-body">Hola?</div>
+              </div>
+              <div class="remote">
+                <div class="message-data uk-text-small">
+                  <span class="user">Nombre</span>
+                  <span class="date-time">10:10AM, Today</span> &nbsp;
+                </div>
+                <div class="message-body">Hola?</div>
+              </div>
+              <div class="local">
+                <div class="message-data uk-text-small align-right">
+                  <span class="date-time">10:10AM, Today</span> &nbsp;
+                  <span class="user">Nombre</span>
+                </div>
+                <div class="message-body">Hola?</div>
+              </div>
+            </div>
+            <div class="controls">
+              <input id="message-input" placeholder="Enter message" />
+              <button id="send-btn" class="uk-button uk-button-default">Enviar</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
     </div>
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit-icons.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/static/js/chat.js"></script>
 </html>
