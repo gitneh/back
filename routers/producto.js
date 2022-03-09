@@ -2,11 +2,9 @@ const { Router } = require("express")
 const router = Router()
 const Producto = require("../model/producto.js")
 
-const router = Router()
-
 const isAdmin = false
 
-router.get("/:id/productos", async (req, res) => { 
+router.get("/:id?", async (req, res) => { 
     const { id } = req.params
     const { body } = req
     try {
@@ -22,17 +20,17 @@ router.get("/:id/productos", async (req, res) => {
     }
   })
 
-router.update("/:id/productos", async (req,res) => {
+  router.put("/:id", async (req,res) => {
   if(!isAdmin) {
     res.send({
         error: -1,
-        description: "ruta /api/producto POST nos authorized",
+        description: "ruta /api/producto PUT nos authorized",
     })
   } else {
     const { id } = req.params
     const { body } = req
     try {
-      await Producto.actualizarId(id, body)
+      await Producto.actualizarId(id, body, newValue)
       res.sendStatus(201)
     } catch(e) {
       if (e.message === "no existe") {
@@ -44,7 +42,7 @@ router.update("/:id/productos", async (req,res) => {
     }
   }
 })
-router.post("/:id/productos", async (req,res) => {
+router.post("/", async (req,res) => {
     if(!isAdmin) {
         res.send({
             error: -1,
@@ -70,11 +68,11 @@ router.post("/:id/productos", async (req,res) => {
 }
 })
 
-router.delete("/:id/productos", async (req,res) => {
+router.delete("/:id", async (req,res) => {
   if(!isAdmin) {
       res.send({
           error: -1,
-          description: "ruta /api/producto POST nos authorized",
+          description: "ruta /api/producto DELETE nos authorized",
       })
   } else {
 const { id, body } = req.params

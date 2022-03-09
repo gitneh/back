@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "timestamp": 123424545,
+        "nombre": "Control de xbox",
+        "descripcion": "Un control",
+        "codigo": "CCCCC",
+        "foto": "http://localhost",
+        "precio": 1500,
+        "stock": 2
+      },
+      {
+        "id": 2,
+        "timestamp": 233874545,
+        "nombre": "Control de ps",
+        "descripcion": "Un control",
+        "codigo": "VVVVVVV",
+        "foto": "http://localhost",
+        "precio": 2000,
+        "stock": 1
+      }
+]

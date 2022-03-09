@@ -8,38 +8,32 @@ class Producto {
       this.data = [] 
     }
 
-    async traerProducto(productos) {
+    async traerProductos(producto) {
       await this.readData()
-      this.data.get(productos)
-      await this.writeData()
-  
+      const prod = producto.map(function(){
+        return prod.nombre
+      })
+     await this.writeData()
     }
-    async actualizarId(id, productos) {
+    async actualizarId(id, idAct, newValue) {
       await this.readData()
-      const producto = this.data.find(c => c.id == id)
+      const producto = this.getProducto(id)
+      producto[idAct] = newValue
+      await this.writeData()
+    }
+    async agregarProducto(id, producto) {
+      await this.readData()
+      const producto = this.getProducto(id)
       if (!producto) {
         throw new Exception("no existe")
       }
-  
-      producto.productos.update(productos)
-  
-      await this.writeData()
-    }
-    async agregarProducto(id, productos) {
-      await this.readData()
-      const producto = this.data.find(c => c.id == id)
-      if (!producto) {
-        throw new Exception("no existe")
-      }
-  
-      producto.productos.push(productos)
-  
+      producto.push(producto) 
       await this.writeData()
     }
     async borrarProducto(id, idProd) {
       await this.readData()
       const producto = this.getProducto(id)
-      producto.productos = carrito.productos.filter(p => p.id != idProd)
+      producto = producto.filter(p => p.id != idProd)
   
       await this.writeData()
     }
@@ -49,8 +43,7 @@ class Producto {
         if (!producto) {
           throw new Exception("no existe")
         }
-    
-        return producto
+      return producto
       }
     async readData() {
         this.data = JSON.parse(await (fs.readFile(this.path, "utf8")))

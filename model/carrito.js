@@ -11,14 +11,18 @@ class Carrito {
   async crearCarrito(carrito) {
     await this.readData()
     carrito.timestamp = Date.now()
+    if (carrito.id != 0){
     carrito.id = this.data[this.data.length - 1].id + 1
     this.data.push(carrito)
+    } else {
+      throw new Exception("no hay productos")
+    }
     await this.writeData()
   }
 
   async agregarProductos(id, productos) {
     await this.readData()
-    const carrito = this.data.find(c => c.id == id)
+    const carrito = this.getCarrito(id)
     if (!carrito) {
       throw new Exception("no existe")
     }
@@ -32,7 +36,6 @@ class Carrito {
     await this.readData()
     const carrito = this.getCarrito(id)
     carrito.productos = carrito.productos.filter(p => p.id != idProd)
-
     await this.writeData()
   }
 
@@ -44,17 +47,20 @@ class Carrito {
 
     return carrito
   }
-  async borrarCarrito(carrito) {
+
+  async borrarCarrito(id) {
     await this.readData()
-    carrito.timestamp = Date.now()
-    this.data.delete(carrito)
+    const carrito = this.getCarrito(id)
+    carrito.productos = carrito.productos.splice(0, carrito.length)
     await this.writeData()
   }
+
   async traerProductos(carrito) {
     await this.readData()
-    this.data.get(carrito)
-    await this.writeData()
-
+    const prod = carrito.map(function(){
+      return prod.nombre
+    })
+   await this.writeData()
   }
 
   async readData() {
