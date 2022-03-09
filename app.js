@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
 const app = express()
+const Contenedor = require("./models/Contenedor")
+const contenedorRouter = require("./routes/contenedor")
+
 // const pugEngine = require('./engines/pug')
 // const ejsEngine = require('./engines/ejs')
 
@@ -9,8 +12,6 @@ const ejsRouter = require('./routes/ejs')
 
 const http = require('http')
 const { Server } = require('socket.io')
-
-const app = express()
 const server = http.createServer(app)
 const io = new Server(server);
 
@@ -49,18 +50,9 @@ io.on("connection", (socket) => {
     users[socket.id] = name
 
     console.log(users)
-    // for of
-    // for in
-    // Object.entries => [ [key, value] ]
-    for (const u of Object.entries(users)) {
-      // u => [key, value]
 
-      // enviar al usuario recien conectado
-      // los usuarios actualmente en linea
-      // {
-      //   id: socket.id,
-      //   name: nombre de usuario
-      // }
+    for (const u of Object.entries(users)) {
+  
       socket.emit("users", { id: u[0], name: u[1] })
     }
     const time = 1000
@@ -92,5 +84,23 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("message", data)
   })
 })
+(async () => {
+  try {
+    await Contenedor.loadData()
+
+    app.use(express.json())
+
+    app.get("/", (rq, rs) => rs.send("Hola"))
+
+    app.use("/api/productos", contenedorRouter)
+    app.listen(
+      8080,
+      () => console.log("Listening")
+    )
+  } catch (e) {
+    console.log(e)
+    console.log("could not start servers")
+  }
+})()
 
 server.listen(8080, () => console.log(`listening on http://localhost:8080`))
