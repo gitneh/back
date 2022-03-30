@@ -4,13 +4,28 @@ const Product = require("../model/producto.js")
 
 const isAdmin = false
 
-router.get("/:id?", async (req, res) => { 
+router.get("/:id/producto", async (req, res) => { 
     const { id } = req.params
     const { body } = req
     try {
       await Product.getById(id, body)
       res.sendStatus(201)
     } catch(e) {
+      if (e.message === "no existe") {
+        res.sendStatus(404) // HTTP Not Found
+      } else {
+        console.log(e)
+        res.sendStatus(500) // HTTP Internal Server Error
+      }
+    }
+  })
+
+  router.get("/producto", async (req, res) => {
+    const { id } = req.params
+    const { body } = req
+    try { await Carrito.getAll(id, body)
+    res.sendStatus(201)
+    }catch (e) {
       if (e.message === "no existe") {
         res.sendStatus(404) // HTTP Not Found
       } else {
