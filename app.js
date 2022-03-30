@@ -17,5 +17,6 @@ app.use("/api/producto", adminMiddleware, routerProducto)
 app.use("/api/mongo", routerMongo)
 
 app.listen(8080, () => console.log("listening"))
-})
+}).catch((err) => console.log("error on mongo", err))
+
  

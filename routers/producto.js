@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const router = Router()
-const Producto = require("../model/producto.js")
+const Product = require("../model/producto.js")
 
 const isAdmin = false
 
@@ -8,7 +8,7 @@ router.get("/:id?", async (req, res) => {
     const { id } = req.params
     const { body } = req
     try {
-      await Producto.traerProducto(id, body)
+      await Product.getById(id, body)
       res.sendStatus(201)
     } catch(e) {
       if (e.message === "no existe") {
@@ -30,7 +30,7 @@ router.get("/:id?", async (req, res) => {
     const { id } = req.params
     const { body } = req
     try {
-      await Producto.actualizarId(id, body, newValue)
+      await Product.update(id, body)
       res.sendStatus(201)
     } catch(e) {
       if (e.message === "no existe") {
@@ -54,7 +54,7 @@ router.post("/", async (req,res) => {
   console.log(id, body)
   
   try {
-    await Producto.agregarProducto(id, body)
+    await Product.create(id, body)
 
     res.sendStatus(201)
   } catch(e) {
@@ -77,7 +77,7 @@ router.delete("/:id", async (req,res) => {
   } else {
 const { id, body } = req.params
   
-await Producto.borrarProducto(id, body)
+await Product.delete(id, body)
 
   res.sendStatus(201)}
 })

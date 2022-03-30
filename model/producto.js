@@ -1,57 +1,71 @@
-const path = require("path")
-const fs = require("fs/promises")
-const { timingSafeEqual } = require("crypto")
+const mongoose = require("mongoose")
 
-class Producto {
-    constructor() {
-      this.path = path.join(__dirname, "../database/productos.json")
-      this.data = [] 
-    }
+class Product {
+  constructor() {
+    const schema = new mongoose.Schema({
+      nombre: String,
+      descripcion: String,
+      codigo: String,
+      url: String,
+      precio: Number,
+      stock: { type: Number, default: 0 },
+      timestamp: { type: Number, default: Date.now() }
+    })
 
-    async traerProductos(producto) {
-      await this.readData()
-      const prod = producto.map(function(){
-        return prod.nombre
-      })
-     await this.writeData()
-    }
-    async actualizarId(id, idAct, newValue) {
-      await this.readData()
-      const producto = this.getProducto(id)
-      producto[idAct] = newValue
-      await this.writeData()
-    }
-    async agregarProducto(id, producto) {
-      await this.readData()
-      const producto = this.getProducto(id)
-      if (!producto) {
-        throw new Exception("no existe")
-      }
-      producto.push(producto) 
-      await this.writeData()
-    }
-    async borrarProducto(id, idProd) {
-      await this.readData()
-      const producto = this.getProducto(id)
-      producto = producto.filter(p => p.id != idProd)
-  
-      await this.writeData()
-    }
+    this.model = mongoose.model("product", schema)
+  }
 
-    getProducto(id) {
-        const producto = this.data.find(c => c.id == id)
-        if (!producto) {
-          throw new Exception("no existe")
-        }
-      return producto
+  async create(obj) {
+    const product = await this.model.create(obj)
+    console.log(JSON.stringify(product, null, 2))
+    return product
+  }
+
+  async getAll(orderBy = '', search = '') {
+    let products = []
+    let find = search ? { nombre: { $regex: search, $options: "i" } } : {}
+    if (orderBy) {
+      const sort = {}
+      sort[orderBy] = -1
+      products = await this.model.find(find).sort(sort)
+    } else {
+      products = await this.model.find(find)
+    }
+    console.log(`Productos en DB: ${products.length}`)
+
+    return products.map((p) => {
+      return {
+        nombre: p.nombre,
+        descripcion: p.descripcion,
+        codigo: p.codigo,
+        url: p.url,
+        precio: p.precio,
+        stock: p.stock,
+        id: p["_id"],
+        timestamp: p.timestamp
       }
-    async readData() {
-        this.data = JSON.parse(await (fs.readFile(this.path, "utf8")))
-      }
-    
-    async writeData() {
-        await fs.writeFile(this.path, JSON.stringify(this.data, null, 2))
-      }
+    })
+  }
+
+  async getById(id) {
+      const pid = await this.model.findOne({ id: id });
+    if (pid) {
+        return pid
+    } else {
+        console.log("not found")
+    }
+  }
+
+  async update() {
+      const result = await this.model.updateOne ({ nombre: Xbox }, { $set: XboxOne })
+    return result
+  }
+
+  async delete() {
+      const borrado = await this.model.deleteOne({nombre: $nombre})
+      return borrado
+
+  }
 }
 
-module.exports = new Producto()
+module.exports = new Product()
