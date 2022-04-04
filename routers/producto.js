@@ -8,30 +8,21 @@ router.get("/:id/producto", async (req, res) => {
     const { id } = req.params
     const { body } = req
     try {
-      await Product.getById(id, body)
-      res.sendStatus(201)
+      const prod = await Product.getById(id, body)
+      res.send(prod)
     } catch(e) {
-      if (e.message === "no existe") {
-        res.sendStatus(404) // HTTP Not Found
-      } else {
-        console.log(e)
-        res.sendStatus(500) // HTTP Internal Server Error
-      }
+      throw new Exception ('not found')
     }
   })
 
   router.get("/producto", async (req, res) => {
     const { id } = req.params
     const { body } = req
-    try { await Carrito.getAll(id, body)
-    res.sendStatus(201)
+    try { 
+      const pro = await Producto.getAll(id, body)
+    res.send(pro)
     }catch (e) {
-      if (e.message === "no existe") {
-        res.sendStatus(404) // HTTP Not Found
-      } else {
-        console.log(e)
-        res.sendStatus(500) // HTTP Internal Server Error
-      }
+      throw new Exception ('not found')
     }
   })
 
@@ -45,15 +36,10 @@ router.get("/:id/producto", async (req, res) => {
     const { id } = req.params
     const { body } = req
     try {
-      await Product.update(id, body)
-      res.sendStatus(201)
+      const produ = await Product.update(id, body)
+      res.send(produ)
     } catch(e) {
-      if (e.message === "no existe") {
-        res.sendStatus(404) // HTTP Not Found
-      } else {
-        console.log(e)
-        res.sendStatus(500) // HTTP Internal Server Error
-      }
+      throw new Exception ('not found')
     }
   }
 })
@@ -61,7 +47,7 @@ router.post("/", async (req,res) => {
     if(!isAdmin) {
         res.send({
             error: -1,
-            description: "ruta /api/producto POST nos authorized",
+            description: "ruta /api/producto POST not authorized",
         })
     } else {
   const { id } = req.params
@@ -69,16 +55,11 @@ router.post("/", async (req,res) => {
   console.log(id, body)
   
   try {
-    await Product.create(id, body)
+    const produc = await Product.create(id, body)
 
-    res.sendStatus(201)
+    res.send(produc)
   } catch(e) {
-    if (e.message === "no existe") {
-      res.sendStatus(404) // HTTP Not Found
-    } else {
-      console.log(e)
-      res.sendStatus(500) // HTTP Internal Server Error
-    }
+    throw new Exception ('not found')
   }
 }
 })
@@ -87,14 +68,14 @@ router.delete("/:id", async (req,res) => {
   if(!isAdmin) {
       res.send({
           error: -1,
-          description: "ruta /api/producto DELETE nos authorized",
+          description: "ruta /api/producto DELETE not authorized",
       })
   } else {
 const { id, body } = req.params
   
-await Product.delete(id, body)
+const product= await Product.delete(id, body)
 
-  res.sendStatus(201)}
+  res.send(product)}
 })
 
 module.exports = router

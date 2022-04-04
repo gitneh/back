@@ -8,16 +8,11 @@ const { body } = req
 console.log(id, body)
 
 try {
-  await Carrito.crear(id, body)
+  const car = await Carrito.crear(id, body)
 
-  res.sendStatus(201)
+  res.send(car)
 } catch(e) {
-  if (e.message === "no existe") {
-    res.sendStatus(404) 
-  } else {
-    console.log(e)
-    res.sendStatus(500) 
-  }
+  throw new Exception ('not found')
 }
 })
 
@@ -25,51 +20,38 @@ try {
 router.get("/:id/carrito", async (req, res) => { 
   const { id } = req.params
   const { body } = req
-  try {await Carrito.getCarrito(id, body)
-    res.sendStatus(201)
+  try {
+    const carr = await Carrito.getCarrito(id, body)
+    res.send(carr)
   } catch (e) {
-    if (e.message === "no existe") {
-      res.sendStatus(404) // HTTP Not Found
-    } else {
-      console.log(e)
-      res.sendStatus(500) // HTTP Internal Server Error
-    }
+    throw new Exception ('not found')
   }
 })
 router.get("/carrito", async (req, res) => {
   const { id } = req.params
   const { body } = req
-  try { await Carrito.traerProductos(id, body)
-  res.sendStatus(201)
+  try { 
+    const carri = await Carrito.traerProductos(id, body)
+  res.send(carri)
   }catch (e) {
-    if (e.message === "no existe") {
-      res.sendStatus(404) // HTTP Not Found
-    } else {
-      console.log(e)
-      res.sendStatus(500) // HTTP Internal Server Error
-    }
+  throw new Exception ('not found')
   }
 })
 
 router.delete("/:id/carritos/:carrito", async (req, res) => {
   const { id, prod } = req.params
-  await Carrito.borrarProducto(id, prod)
-  res.sendStatus(202)
+  const carrit = await Carrito.borrarProducto(id, prod)
+  res.send(carrit)
 })
 
 router.put("/:id", async (req,res) => {
     const { id } = req.params
     const { body } = req
     try {
-      await Product.actualizar(id, body)
-      res.sendStatus(201)
+      const carrito = await Product.actualizar(id, body)
+      res.send(carrito)
     } catch(e) {
-      if (e.message === "no existe") {
-        res.sendStatus(404)
-      } else {
-        console.log(e)
-        res.sendStatus(500)
-      }
+      throw new Exception ('not found')
     }
 })
 
